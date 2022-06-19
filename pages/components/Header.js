@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { DateRangePicker } from "react-date-range";
 import {
   SearchIcon,
   GlobeAltIcon,
@@ -8,10 +11,26 @@ import {
   UserIcon,
 } from "@heroicons/react/solid";
 function Header() {
+  const [searchInput, setSearchInput] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const handleSelect = (ranges) => {
+    console.log(1111, ranges);
+    setStartDate(ranges.selection.startDate);
+    setEndDate(ranges.selection.endDate);
+  };
+
+  const selectionRange = {
+    startDate: startDate,
+    endDate: endDate,
+    key: "selection",
+  };
+
   return (
     <div className="sticky top-0 grid grid-cols-3 bg-white shadow-md py-5 px-5 md:px-10 z-50">
       {/* left */}
-      <div className="relative flex item-center h-10 cursor-pointer my-auto z-50 ">
+      <div className="relative flex item-center h-10 cursor-pointer my-auto ">
         <Image
           src="https://links.papareact.com/qd3"
           layout="fill"
@@ -22,7 +41,9 @@ function Header() {
       {/* Middle */}
       <div className="flex items-center md:border-2 rounded-full py-2 md:shadow-sm">
         <input
-          className="pl-5 flex-grow bg-transparent outline-none text-gray-400"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          className="pl-5 flex-grow bg-transparent outline-none text-gray-600 placeholder-gray-400 text-sm"
           type="text"
           placeholder="Start your search ..."
         />
@@ -37,7 +58,21 @@ function Header() {
           <MenuIcon className="h-6 cursor-pointer" />
           <UserCircleIcon className="h-6 cursor-pointer" />
         </div>
+
+        {/* {searchInput && <div>Hello would</div>} */}
       </div>
+      {searchInput && (
+        <div
+          className="flex flex-col col-span-3 mx-auto"
+        >
+          <DateRangePicker
+            ranges={[selectionRange]}
+            minDate={new Date()}
+            rangeColors={["#FD5B61"]}
+            onChange={handleSelect}
+          />
+        </div>
+      )}
     </div>
   );
 }
