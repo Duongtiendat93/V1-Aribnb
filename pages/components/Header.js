@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/solid";
 function Header() {
   return (
-    <div className="sticky top-0 grid grid-cols-3 bg-white shadow-md py-5 px-5 md:px-10">
+    <div className="sticky top-0 grid grid-cols-3 bg-white shadow-md py-5 px-5 md:px-10 z-50">
       {/* left */}
       <div className="relative flex item-center h-10 cursor-pointer my-auto z-50 ">
         <Image
